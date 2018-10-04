@@ -12,9 +12,6 @@ function signUpClick(event) {
   var email = $("#sign-up-email").val();
   var password = $("#sign-up-password").val();
   var address = $("#sign-up-address").val();
-  var city = $("#sign-up-city").val();
-  var state = $("#sign-up-state").val();
-  var country = $("#sign-up-country").val();
 
 
   createUser(name, email, password, address, city, state, country);
