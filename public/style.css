@@ -41,4 +41,16 @@ body {
   border-top-right-radius: 0;
 }
 
+.amarelo-medio{
+background: #FFC840;
+}
+
+.amarelo-claro{
+background: #FFD773;
+}
+
+.amarelo-escuro{
+background: #FFB600;
+}
+
 /*roxo principal #800080*/
