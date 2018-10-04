@@ -7,20 +7,24 @@ $(document).ready(function() {
 
 function signUpClick(event) {
   event.preventDefault();
-  
+
   var name = $('#sign-up-name').val();
   var email = $("#sign-up-email").val();
   var password = $("#sign-up-password").val();
   var address = $("#sign-up-address").val();
+  var city = $("#sign-up-city").val();
+  var state = $("#sign-up-state").val();
+  var country = $("#sign-up-country").val();
 
-  createUser(name, email, password, address);
+
+  createUser(name, email, password, address, city, state, country);
 }
 
-function createUser(name, email, password, address) {
+function createUser(name, email, password, address, city, state, country) {
   firebase.auth().createUserWithEmailAndPassword(email, password)
     .then(function(response) {
       var userId = response.user.uid;
-      userInfo(userId, name, email, password, address);
+      userInfo(userId, name, email, password, address, city, state, country);
       redirectToPosts(userId);
     })
     .catch(function(error) {
@@ -57,11 +61,14 @@ function redirectToPosts(userId) {
   window.location = "dashboard.html?id=" + userId;
 }
 
-function userInfo(userId, name, email, password, address) {
+function userInfo(userId, name, email, password, address, city, state, country) {
   database.ref('users/' + userId).set({
     name: name,
     email: email,
     password: password,
     address: address,
+    city: city,
+    state: state,
+    country: country
   });
 }
