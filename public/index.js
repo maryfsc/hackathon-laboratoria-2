@@ -63,9 +63,6 @@ function userInfo(userId, name, email, password, address, city, state, country) 
     name: name,
     email: email,
     password: password,
-    address: address,
-    city: city,
-    state: state,
-    country: country
+    address: address
   });
 }
