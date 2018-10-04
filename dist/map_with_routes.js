@@ -1,4 +1,18 @@
-fetch('https://geocoder.api.here.com/6.2/geocode.json?app_id=vhWjDv2Os9TALNb7sd27&app_code=x-R2uX7SKYidrk8UZrpOLQ&searchtext=Rua+Palma+Sola+208+São+Paulo').then(function(response){ 
+button.addEventListener('click', treatingInputs);
+
+function treatingInputs() {
+  const destino = document.getElementById('go-to').value.replace(/(\s)/g, "+");
+  const atual = document.getElementById('from-where').value.replace(/(\s)/g, "+");
+
+  console.log(destino); // destino vai pra firebase, depois pega pra fazer a rota
+  console.log(atual);
+
+  requestAPI(atual);
+}
+
+function requestAPI(actual) {
+
+fetch(`https://geocoder.api.here.com/6.2/geocode.json?app_id=vhWjDv2Os9TALNb7sd27&app_code=x-R2uX7SKYidrk8UZrpOLQ&searchtext=${actual}`).then(function(response){ 
 
   response.json().then(function(data) {
     const adressLat = data.Response.View[0].Result[0].Location.DisplayPosition.Latitude;
@@ -8,12 +22,12 @@ fetch('https://geocoder.api.here.com/6.2/geocode.json?app_id=vhWjDv2Os9TALNb7sd2
     console.log(adressLat)
     console.log(adressLong)
     console.log(city)
+
+    calculateRouteFromAtoB (adressLat, adressLong);
   })
-
-
 });
 
-
+} 
 
 /**
  * Calculates and displays a car route from the Brandenburg Gate in the centre of Berlin
@@ -24,7 +38,7 @@ fetch('https://geocoder.api.here.com/6.2/geocode.json?app_id=vhWjDv2Os9TALNb7sd2
  *
  * @param   {H.service.Platform} platform    A stub class to access HERE services
  */
-function calculateRouteFromAtoB (platform) {
+function calculateRouteFromAtoB (lat, long) {
   var router = platform.getRoutingService(),
     routeRequestParams = {
       mode: 'fastest;car',
@@ -32,7 +46,7 @@ function calculateRouteFromAtoB (platform) {
       routeattributes : 'waypoints,summary,shape,legs',
       maneuverattributes: 'direction,action',
       waypoint0: '52.5160,13.3779', // Brandenburg Gate
-      waypoint1: '52.5206,13.3862'  // Friedrichstraße Railway Station
+      waypoint1: `${lat},${long}`  // Friedrichstraße Railway Station
     };
 
 
@@ -85,8 +99,8 @@ var mapContainer = document.getElementById('map'),
 
 //Step 1: initialize communication with the platform
 var platform = new H.service.Platform({
-  app_id: '{YOUR_APP_ID}',
-  app_code: '{YOUR_APP_CODE}',
+  app_id: 'vhWjDv2Os9TALNb7sd27',
+  app_code: 'x-R2uX7SKYidrk8UZrpOLQ',
   useCIT: true,
   useHTTPS: true
 });
