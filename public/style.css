@@ -1,5 +1,6 @@
 body {
   margin: 0;
+  background-color: #800080;
 }
 
 .form-signin {
@@ -7,6 +8,9 @@ body {
   max-width: 330px;
   padding: 15px;
   margin: 0 auto;
+  background-color: white;
+  border-radius: 10px;
+
 }
 
 .form-signin .checkbox {
@@ -36,3 +40,5 @@ body {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
+
+/*roxo principal #800080*/

@@ -16,25 +16,27 @@
 
 <body>
   <section class="text-center">
-    <form class="form-signin">
+    <form class="form-signin mt-5 p-3 align-middle">
       <img class="mb-4" src="" alt="" width="72" height="72">
-      <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+      <h1 class="h3 mb-3 font-weight-normal">TecMob</h1>
+      <p>Praticidade na sua mobilidade!</p>
       <label for="inputName" class="sr-only">Name</label>
       <input type="name" id="sign-up-name" class="form-control mb-2" placeholder="Nome" required autofocus>
       <label for="inputEmail" class="sr-only">Email address</label>
       <input type="email" id="sign-up-email" class="form-control mb-2" placeholder="E-mail" required autofocus>
+      <small>usuario@email.com</small>
       <label for="inputPassword" class="sr-only">Password</label>
       <input type="password" id="sign-up-password" class="form-control" placeholder="Senha" required autofocus>
       <label for="inputAddress" class="sr-only">Address</label>
       <input type="text" id="sign-up-address" class="form-control" placeholder="Endereço de destino principal." required autofocus>
       <small>Ex: Rua Banana Peixinho 67 São Paulo</small>
-      <button class="btn btn-lg btn-primary btn-block mt-3" id="sign-up-button" type="submit">Sign Up</button>
-      <button type="button" class="btn btn-lg btn-primary btn-block mt-3" data-toggle="modal" data-target="#signInModal">Sign In</button>
+      <button class="btn btn-lg btn-warning btn-block mt-3" id="sign-up-button" type="submit">Sign Up</button>
+      <button type="button" class="btn btn-lg btn-warning btn-block mt-3" data-toggle="modal" data-target="#signInModal">Sign In</button>
     </form>
   </section>
 
   <!-- Modal: Sign In -->
-  <div class="modal" id="signInModal" tabindex="-1" role="dialog">
+  <div class="modal fade" id="signInModal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -49,7 +51,7 @@
           <input type="email" id="sign-in-email" class="form-control mb-2" placeholder="Email address" required autofocus>
           <label for="inputPassword" class="sr-only">Password</label>
           <input type="password" id="sign-in-password" class="form-control" placeholder="Password" required autofocus>
-          <button class="btn btn-lg btn-primary btn-block mt-3 sign-in-button" type="submit">Sign In</button>
+          <button class="btn btn-lg btn-warning btn-block mt-3 sign-in-button" type="submit">Sign In</button>
         </div>
       </div>
     </div>
