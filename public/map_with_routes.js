@@ -12,15 +12,6 @@ function fromWhere() {
   });
 }
 
-/**
- * Calculates and displays a car route from the Brandenburg Gate in the centre of Berlin
- * to Friedrichstraße Railway Station.
- *
- * A full list of available request parameters can be found in the Routing API documentation.
- * see:  http://developer.here.com/rest-apis/documentation/routing/topics/resource-calculate-route.html
- *
- * @param   {H.service.Platform} platform    A stub class to access HERE services
- */
 function calculateRouteFromAtoB (platform, latitude, longitude) {
   var router = platform.getRoutingService(),
     routeRequestParams = {
@@ -38,49 +29,28 @@ function calculateRouteFromAtoB (platform, latitude, longitude) {
     onError
   );
 }
-/**
- * This function will be called once the Routing REST API provides a response
- * @param  {Object} result          A JSONP object representing the calculated route
- *
- * see: http://developer.here.com/rest-apis/documentation/routing/topics/resource-type-calculate-route.html
- */
+
 function onSuccess(result) {
   console.log(result);
   var route = result.response.route[0];
- /*
-  * The styling of the route response on the map is entirely under the developer's control.
-  * A representitive styling can be found the full JS + HTML code of this example
-  * in the functions below:
-  */
+
   addRouteShapeToMap(route);
   addManueversToMap(route);
 
   addWaypointsToPanel(route.waypoint);
   addManueversToPanel(route);
   addSummaryToPanel(route.summary);
-  // ... etc.
 }
 
-/**
- * This function will be called if a communication error occurs during the JSON-P request
- * @param  {Object} error  The error message received.
- */
 function onError(error) {
   alert('Ooops!');
 }
-
-
-
-
-/**
- * Boilerplate map initialization code starts below:
- */
 
 // set up containers for the map  + panel
 var mapContainer = document.getElementById('map'),
   routeInstructionsContainer = document.getElementById('panel');
 
-//Step 1: initialize communication with the platform
+
 var platform = new H.service.Platform({
   app_id: 'vhWjDv2Os9TALNb7sd27',
   app_code: 'x-R2uX7SKYidrk8UZrpOLQ',
@@ -89,34 +59,24 @@ var platform = new H.service.Platform({
 });
 var defaultLayers = platform.createDefaultLayers();
 
-//Step 2: initialize a map - this map is centered over Berlin
 var map = new H.Map(mapContainer,
   defaultLayers.normal.map,{
   center: {lat:-23.5577666, lng:-46.6623977},
   zoom: 15
 });
 
-//Step 3: make the map interactive
-// MapEvents enables the event system
-// Behavior implements default interactions for pan/zoom (also on mobile touch environments)
+
 var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
 
-// Create the default UI components
 var ui = H.ui.UI.createDefault(map, defaultLayers);
 
 // Hold a reference to any infobubble opened
 var bubble;
 
-/**
- * Opens/Closes a infobubble
- * @param  {H.geo.Point} position     The location on the map.
- * @param  {String} text              The contents of the infobubble.
- */
 function openBubble(position, text){
  if(!bubble){
     bubble =  new H.ui.InfoBubble(
       position,
-      // The FO property holds the province name.
       {content: text});
     ui.addBubble(bubble);
   } else {
@@ -126,11 +86,6 @@ function openBubble(position, text){
   }
 }
 
-
-/**
- * Creates a H.map.Polyline from the shape of the route and adds it to the map.
- * @param {Object} route A route as received from the H.service.RoutingService
- */
 function addRouteShapeToMap(route){
   var strip = new H.geo.Strip(),
     routeShape = route.shape,
@@ -147,17 +102,11 @@ function addRouteShapeToMap(route){
       strokeColor: 'rgba(0, 128, 255, 0.7)'
     }
   });
-  // Add the polyline to the map
+
   map.addObject(polyline);
-  // And zoom to its bounding rectangle
   map.setViewBounds(polyline.getBounds(), true);
 }
 
-
-/**
- * Creates a series of H.map.Marker points from the route and adds them to the map.
- * @param {Object} route  A route as received from the H.service.RoutingService
- */
 function addManueversToMap(route){
   var svgMarkup = '<svg width="18" height="18" ' +
     'xmlns="http://www.w3.org/2000/svg">' +
@@ -169,12 +118,9 @@ function addManueversToMap(route){
     i,
     j;
 
-  // Add a marker for each maneuver
   for (i = 0;  i < route.leg.length; i += 1) {
     for (j = 0;  j < route.leg[i].maneuver.length; j += 1) {
-      // Get the next maneuver.
       maneuver = route.leg[i].maneuver[j];
-      // Add a marker to the maneuvers group
       var marker =  new H.map.Marker({
         lat: maneuver.position.latitude,
         lng: maneuver.position.longitude} ,
@@ -190,18 +136,10 @@ function addManueversToMap(route){
        evt.target.getPosition(), evt.target.instruction);
   }, false);
 
-  // Add the maneuvers group to the map
   map.addObject(group);
 }
 
-
-/**
- * Creates a series of H.map.Marker points from the route and adds them to the map.
- * @param {Object} route  A route as received from the H.service.RoutingService
- */
 function addWaypointsToPanel(waypoints){
-
-
 
   var nodeH3 = document.createElement('h3'),
     waypointLabels = [],
@@ -218,10 +156,6 @@ function addWaypointsToPanel(waypoints){
   routeInstructionsContainer.appendChild(nodeH3);
 }
 
-/**
- * Creates a series of H.map.Marker points from the route and adds them to the map.
- * @param {Object} route  A route as received from the H.service.RoutingService
- */
 function addSummaryToPanel(summary){
   var summaryDiv = document.createElement('div'),
    content = '';
@@ -229,21 +163,14 @@ function addSummaryToPanel(summary){
    content += '<b>Travel Time</b>: ' + summary.travelTime.toMMSS() + ' (in current traffic)';
 
 
-  summaryDiv.style.fontSize = 'small';
+  summaryDiv.style.fontSize = '';
   summaryDiv.style.marginLeft ='5%';
   summaryDiv.style.marginRight ='5%';
   summaryDiv.innerHTML = content;
   routeInstructionsContainer.appendChild(summaryDiv);
 }
 
-/**
- * Creates a series of H.map.Marker points from the route and adds them to the map.
- * @param {Object} route  A route as received from the H.service.RoutingService
- */
 function addManueversToPanel(route){
-
-
-
   var nodeOL = document.createElement('ol'),
     i,
     j;
@@ -253,10 +180,8 @@ function addManueversToPanel(route){
   nodeOL.style.marginRight ='5%';
   nodeOL.className = 'directions';
 
-     // Add a marker for each maneuver
   for (i = 0;  i < route.leg.length; i += 1) {
     for (j = 0;  j < route.leg[i].maneuver.length; j += 1) {
-      // Get the next maneuver.
       maneuver = route.leg[i].maneuver[j];
 
       var li = document.createElement('li'),
@@ -280,5 +205,4 @@ Number.prototype.toMMSS = function () {
   return  Math.floor(this / 60)  +' minutes '+ (this % 60)  + ' seconds.';
 }
 
-// Now use the map as required...
 calculateRouteFromAtoB (platform);
